@@ -6,6 +6,14 @@ import { useState } from 'react';
 function App() {
 
   const [isDefault, setIsDefault] = useState(true);
+  const [formData, setFormData] = useState({title: "", description: "", date: ""});
+  
+  function handleInputChange(e, identifier)
+  {
+      setFormData(oldFormData => {
+          return {...oldFormData, [identifier]: e.target.value}
+      })
+  }
 
   function handleSidebarClick()
   {
@@ -18,7 +26,7 @@ function App() {
   return (
     <>
       <Sidebar onSidebarClick={handleSidebarClick}/>
-      { !isDefault && <Form/>}
+      { !isDefault && <Form onFormChange={handleInputChange} formData={formData}/>}
       { isDefault && <Content onSidebarClick={handleSidebarClick}/> }
     </>
   );
