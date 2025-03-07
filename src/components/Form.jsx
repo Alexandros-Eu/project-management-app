@@ -1,10 +1,10 @@
-export default function Form({onFormChange, formData})
+export default function Form({onFormChange, formData, onFormSubmit})
 {
     return (
         <form action="" className="flex flex-wrap justify-start pe-72 pt-36">
             <div className="flex justify-end w-full">
                 <button className="w-20 h-10 inline me-2 text-stone-800 font-semibold col-end-6">Cancel</button>
-                <button className="w-20 h-10 inline bg-stone-800 text-white rounded-lg font-semibold">Save</button>
+                <button className="w-20 h-10 inline bg-stone-800 text-white rounded-lg font-semibold" onClick={(e) => onFormSubmit(e, formData)}>Save</button>
             </div>
 
             <div className="grid grid-cols-1 ps-12">

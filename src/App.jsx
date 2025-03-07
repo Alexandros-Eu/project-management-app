@@ -7,7 +7,8 @@ function App() {
 
   const [isDefault, setIsDefault] = useState(true);
   const [formData, setFormData] = useState({title: "", description: "", date: ""});
-  
+  const [projectsData, setProjectsData] = useState([]);
+
   function handleInputChange(e, identifier)
   {
       setFormData(oldFormData => {
@@ -23,10 +24,23 @@ function App() {
     }
   }
 
+  function handleFormSubmit(e, data)
+  {
+    e.preventDefault();
+
+    setProjectsData(oldProjects => {
+      return [...oldProjects, 
+        {title: data.title, 
+          description: data.description, 
+          date: data.date
+        }]
+    })
+  }
+
   return (
     <>
       <Sidebar onSidebarClick={handleSidebarClick}/>
-      { !isDefault && <Form onFormChange={handleInputChange} formData={formData}/>}
+      { !isDefault && <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/>}
       { isDefault && <Content onSidebarClick={handleSidebarClick}/> }
     </>
   );
