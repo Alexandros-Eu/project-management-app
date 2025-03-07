@@ -39,7 +39,7 @@ function App() {
 
   return (
     <>
-      <Sidebar onSidebarClick={handleSidebarClick}/>
+      <Sidebar onSidebarClick={handleSidebarClick} projects={projectsData}/>
       { !isDefault && <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/>}
       { isDefault && <Content onSidebarClick={handleSidebarClick}/> }
     </>
