@@ -5,9 +5,11 @@ import { useState } from 'react';
 
 function App() {
 
-  const [isDefault, setIsDefault] = useState(true);
+  const [currentComponent, setCurrentComponent] = useState("defaultPage");
   const [formData, setFormData] = useState({title: "", description: "", date: ""});
   const [projectsData, setProjectsData] = useState([]);
+
+  let currentProject;
 
   function handleInputChange(e, identifier)
   {
@@ -16,11 +18,11 @@ function App() {
       })
   }
 
-  function handleSidebarClick()
+  function handleAddProject()
   {
-    if(isDefault)
+    if(currentComponent)
     {
-      setIsDefault(!isDefault);
+      setCurrentComponent("projectForm");
     }
   }
 
@@ -37,11 +39,17 @@ function App() {
     })
   }
 
+  function handleProjectClick(project)
+  {
+      setCurrentComponent("projectRendering");
+      currentProject = project;
+  }
+
   return (
     <>
-      <Sidebar onSidebarClick={handleSidebarClick} projects={projectsData}/>
-      { !isDefault && <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/>}
-      { isDefault && <Content onSidebarClick={handleSidebarClick}/> }
+      <Sidebar onAddProject={handleAddProject} projects={projectsData} onProjectClick={handleProjectClick}/>
+      { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/> : undefined}
+      { currentComponent === "defaultPage" ?  <Content onAddProject={handleAddProject}/> : undefined}
     </>
   );
 }
