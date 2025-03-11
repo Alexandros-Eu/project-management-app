@@ -32,6 +32,11 @@ function App() {
 
   function handleFormSubmit(e, data)
   {
+    if(e.target.name === "cancel")
+    {
+      return;
+    }
+
     e.preventDefault();
 
     setProjectsData(oldProjects => {
