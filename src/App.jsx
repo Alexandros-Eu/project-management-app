@@ -40,6 +40,7 @@ function App() {
     e.preventDefault();
 
     setProjectsData(oldProjects => {
+      setFormData({title: "", description: "", date: ""});
       return [...oldProjects, 
         {title: data.title, 
           description: data.description, 
@@ -64,6 +65,7 @@ function App() {
       e.preventDefault();
 
       setTaskData(oldTaskData => {
+          setTask("");
           return [...oldTaskData, task];
       })
   }
