@@ -1,4 +1,4 @@
-export default function TaskForm({task, onTaskChange, onTaskSubmit, taskData})
+export default function TaskForm({task, onTaskChange, onTaskSubmit, taskData, onTaskDelete})
 {
     return (
         <form onSubmit={onTaskSubmit} className="pt-8 ps-96 pe-60">
@@ -13,7 +13,7 @@ export default function TaskForm({task, onTaskChange, onTaskSubmit, taskData})
                         i++;
                         return  <div key={i} className="flex justify-between items-center w-full h-10">
                                     <p className="font-semibold mt-3">{task}</p>
-                                    <button className="pt-4">Clear</button>
+                                    <button type="button" onClick={(e) => onTaskDelete(e, task)} name="clear" className="pt-4">Clear</button>
                                 </div> 
 
                     })}

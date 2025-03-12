@@ -64,10 +64,24 @@ function App() {
   {
       e.preventDefault();
 
+      if(e.target.name === "clear")
+      {
+        return;
+      }
+
       setTaskData(oldTaskData => {
           setTask("");
           return [...oldTaskData, task];
       })
+  }
+
+  function removeTask(e, taskForRemoval)
+  {
+    setTaskData(oldTaskData => {
+      return oldTaskData.filter((task) => {
+        return task !== taskForRemoval;
+      })
+    })
   }
 
   return (
@@ -76,7 +90,7 @@ function App() {
       { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/> : undefined}
       { currentComponent === "defaultPage" ?  <Content onAddProject={handleAddProject}/> : undefined}
       { currentComponent === "projectRendering" ? <Project project={currentProject}/> : undefined}
-      { currentComponent === "projectRendering" ? <TaskForm task={task} onTaskChange={handleTaskChange} onTaskSubmit={handleTaskFormSubmit} taskData={taskData}/> : undefined}
+      { currentComponent === "projectRendering" ? <TaskForm task={task} onTaskChange={handleTaskChange} onTaskSubmit={handleTaskFormSubmit} taskData={taskData} onTaskDelete={removeTask}/> : undefined}
     </>
   );
 }
