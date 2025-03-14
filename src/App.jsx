@@ -12,7 +12,7 @@ function App() {
   const [projectsData, setProjectsData] = useState([]);
   const [currentProject, setCurrentProject] = useState();
   const [task, setTask] = useState("");
-  const [taskData, setTaskData] = useState([]);
+ 
   
 
   function handleInputChange(e, identifier)
@@ -44,7 +44,8 @@ function App() {
       return [...oldProjects, 
         {title: data.title, 
           description: data.description, 
-          date: data.date
+          date: data.date,
+          tasks: []
         }]
     })
   }
@@ -69,10 +70,26 @@ function App() {
         return;
       }
 
-      setTaskData(oldTaskData => {
-          setTask("");
-          return [...oldTaskData, task];
+      setProjectsData(oldProjects => {
+        return oldProjects.map(oldProject => {
+
+          if(oldProject.title === currentProject.title)
+          {
+            setCurrentProject(oldCurrentProject => {
+              return {...oldCurrentProject, 
+                tasks: [...oldProject.tasks, task]
+              }
+            })
+            return {...oldProject, 
+              tasks: [...oldProject.tasks, task]
+            }
+          }
+          return oldProject;
+        })
       })
+
+      setTask("");
+
   }
 
   function removeTask(e, taskForRemoval)
@@ -90,7 +107,7 @@ function App() {
       { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/> : undefined}
       { currentComponent === "defaultPage" ?  <Content onAddProject={handleAddProject}/> : undefined}
       { currentComponent === "projectRendering" ? <Project project={currentProject}/> : undefined}
-      { currentComponent === "projectRendering" ? <TaskForm task={task} onTaskChange={handleTaskChange} onTaskSubmit={handleTaskFormSubmit} taskData={taskData} onTaskDelete={removeTask}/> : undefined}
+      { currentComponent === "projectRendering" ? <TaskForm task={task} onTaskChange={handleTaskChange} onTaskSubmit={handleTaskFormSubmit} taskData={currentProject.tasks} onTaskDelete={removeTask}/> : undefined}
     </>
   );
 }
