@@ -94,11 +94,27 @@ function App() {
 
   function removeTask(e, taskForRemoval)
   {
-    setTaskData(oldTaskData => {
-      return oldTaskData.filter((task) => {
-        return task !== taskForRemoval;
+
+    setProjectsData(oldProjects => {
+      return oldProjects.map(project => {
+        if(project.description === currentProject.description)
+        {
+          let newTasks = project.tasks.filter(task => task !== taskForRemoval)
+
+          setCurrentProject(oldCurrentProject => {
+            return {...oldCurrentProject, 
+              tasks: newTasks
+            }
+          })
+
+          return {...project, 
+            tasks: newTasks}
+        }
+
+        return {...project}
       })
     })
+
   }
 
   return (
