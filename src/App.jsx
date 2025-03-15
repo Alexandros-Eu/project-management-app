@@ -100,21 +100,28 @@ function App() {
         if(project.description === currentProject.description)
         {
           let newTasks = project.tasks.filter(task => task !== taskForRemoval)
-
           setCurrentProject(oldCurrentProject => {
             return {...oldCurrentProject, 
               tasks: newTasks
             }
           })
-
           return {...project, 
             tasks: newTasks}
         }
-
         return {...project}
       })
     })
+  }
 
+  function removeProject(e, project)
+  {
+    setProjectsData(oldProjects => {
+      return oldProjects.filter(oldProject => {
+        return oldProject.description !== project.description
+      })
+    })
+
+    setCurrentComponent("defaultPage");
   }
 
   return (
@@ -122,7 +129,7 @@ function App() {
       <Sidebar onAddProject={handleAddProject} projects={projectsData} onProjectClick={handleProjectClick}/>
       { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/> : undefined}
       { currentComponent === "defaultPage" ?  <Content onAddProject={handleAddProject}/> : undefined}
-      { currentComponent === "projectRendering" ? <Project project={currentProject}/> : undefined}
+      { currentComponent === "projectRendering" ? <Project project={currentProject} onProjectDelete={removeProject}/> : undefined}
       { currentComponent === "projectRendering" ? <TaskForm task={task} onTaskChange={handleTaskChange} onTaskSubmit={handleTaskFormSubmit} taskData={currentProject.tasks} onTaskDelete={removeTask}/> : undefined}
     </>
   );
