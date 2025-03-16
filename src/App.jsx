@@ -9,6 +9,7 @@ function App() {
 
   const [currentComponent, setCurrentComponent] = useState("defaultPage");
   const [formData, setFormData] = useState({title: "", description: "", date: ""});
+  const [isFormValid, setIsFormValid] = useState(false);
   const [projectsData, setProjectsData] = useState([]);
   const [currentProject, setCurrentProject] = useState();
   const [task, setTask] = useState("");
@@ -20,6 +21,13 @@ function App() {
       setFormData(oldFormData => {
           return {...oldFormData, [identifier]: e.target.value}
       })
+
+      const formToBeValidated = {
+        ...formData,
+        [identifier]: e.target.value
+      };
+
+      validate(formToBeValidated);
   }
 
   function handleAddProject()
@@ -27,6 +35,17 @@ function App() {
     if(currentComponent)
     {
       setCurrentComponent("projectForm");
+    }
+  }
+
+  const validate = (data) => {
+    if(data.title.length > 0 && data.description.length > 0 && data.date.length > 0)
+    {
+      setIsFormValid(true);
+    }
+    else
+    {
+      setIsFormValid(false);
     }
   }
 
@@ -41,6 +60,7 @@ function App() {
 
     setProjectsData(oldProjects => {
       setFormData({title: "", description: "", date: ""});
+      setIsFormValid(false);
       return [...oldProjects, 
         {title: data.title, 
           description: data.description, 
@@ -127,7 +147,7 @@ function App() {
   return (
     <>
       <Sidebar onAddProject={handleAddProject} projects={projectsData} onProjectClick={handleProjectClick}/>
-      { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/> : undefined}
+      { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit} isValid={isFormValid}/> : undefined}
       { currentComponent === "defaultPage" ?  <Content onAddProject={handleAddProject}/> : undefined}
       { currentComponent === "projectRendering" ? <Project project={currentProject} onProjectDelete={removeProject}/> : undefined}
       { currentComponent === "projectRendering" ? <TaskForm task={task} onTaskChange={handleTaskChange} onTaskSubmit={handleTaskFormSubmit} taskData={currentProject.tasks} onTaskDelete={removeTask}/> : undefined}

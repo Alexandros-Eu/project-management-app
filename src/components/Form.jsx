@@ -1,13 +1,14 @@
-export default function Form({onFormChange, formData, onFormSubmit})
+export default function Form({onFormChange, formData, onFormSubmit, isValid})
 {
     return (
         <form onSubmit={(e) => onFormSubmit(e, formData)} className="flex flex-wrap justify-start pe-72 pt-36">
             <div className="flex justify-end w-full">
                 <button className="w-20 h-10 inline me-2 text-stone-800 font-semibold col-end-6" name="cancel">Cancel</button>
-                <button className="w-20 h-10 inline bg-stone-800 text-white rounded-lg font-semibold" name="save">Save</button>
+                <button className="w-20 h-10 inline bg-stone-800 text-white rounded-lg font-semibold" name="save" disabled={!isValid}>Save</button>
             </div>
 
             <div className="grid grid-cols-1 ps-12">
+                {!isValid && <p className="text-red-600">Please fill out all fields</p>}
                 <label className="mt-3 text-stone-700 font-bold" htmlFor="title">TITLE</label>
                 <input className="mt-2 bg-stone-300 h-8 text-stone-700" type="text" name="title" value={formData.title} onChange={(e) => onFormChange(e, "title")} required/>
 
