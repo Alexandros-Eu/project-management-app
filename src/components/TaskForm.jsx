@@ -1,3 +1,11 @@
+/*
+    * A Task Form Component for creating or deleting tasks of a project
+    * onTaskChange fn -> Handler for input changed (Two-Way-Binding)
+    * task -> current task state
+    * onTaskSubmit fn -> Handler for task form submission
+    * taskData -> Array with all existings tasks of the project
+    * onTaskDelete fn -> Handler to remove a task from the project
+*/
 export default function TaskForm({task, onTaskChange, onTaskSubmit, taskData, onTaskDelete})
 {
     return (

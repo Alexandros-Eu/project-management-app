@@ -7,21 +7,23 @@ import { useState } from 'react';
 
 function App() {
 
-  const [currentComponent, setCurrentComponent] = useState("defaultPage");
-  const [formData, setFormData] = useState({title: "", description: "", date: ""});
-  const [isFormValid, setIsFormValid] = useState(false);
-  const [projectsData, setProjectsData] = useState([]);
-  const [currentProject, setCurrentProject] = useState();
-  const [task, setTask] = useState("");
+  const [currentComponent, setCurrentComponent] = useState("defaultPage");  // Controls which component is currently displayed ('defaultPage', 'projectForm', 'projectRendering')
+  const [formData, setFormData] = useState({title: "", description: "", date: ""}); // Manages project form input values
+  const [isFormValid, setIsFormValid] = useState(false); // Tracks if all required project form fields are filled
+  const [projectsData, setProjectsData] = useState([]); // Array of all projects with their associated tasks
+  const [currentProject, setCurrentProject] = useState(); // Currently selected project for viewing
+  const [task, setTask] = useState(""); // Current task input value 
  
   
 
-  function handleInputChange(e, identifier)
+  function handleInputChange(e, identifier) // Handler for the input changes in the Project Form
   {
+      // Updates form data and triggers validation on every input change
       setFormData(oldFormData => {
           return {...oldFormData, [identifier]: e.target.value}
       })
 
+      // Creates a new form object with the latest change for validation
       const formToBeValidated = {
         ...formData,
         [identifier]: e.target.value
@@ -30,15 +32,15 @@ function App() {
       validate(formToBeValidated);
   }
 
-  function handleAddProject()
+  function handleAddProject() // Handler for adding a new project
   {
     if(currentComponent)
     {
-      setCurrentComponent("projectForm");
+      setCurrentComponent("projectForm"); // Renders the Project Form
     }
   }
 
-  const validate = (data) => {
+  const validate = (data) => {  // Validates the Form that is not empty
     if(data.title.length > 0 && data.description.length > 0 && data.date.length > 0)
     {
       setIsFormValid(true);
@@ -49,18 +51,18 @@ function App() {
     }
   }
 
-  function handleFormSubmit(e, data)
+  function handleFormSubmit(e, data)  // Handler for Form Submission (addition of a new project)
   {
-    if(e.target.name === "cancel")
+    if(e.target.name === "cancel")  // If the source of the event is from 'cancel' it returns
     {
       return;
     }
 
-    e.preventDefault();
+    e.preventDefault(); // Prevents the default behavior of a form
 
     setProjectsData(oldProjects => {
-      setFormData({title: "", description: "", date: ""});
-      setIsFormValid(false);
+      setFormData({title: "", description: "", date: ""});  // Reset the Form state
+      setIsFormValid(false);  // Reset the validation
       return [...oldProjects, 
         {title: data.title, 
           description: data.description, 
@@ -70,22 +72,22 @@ function App() {
     })
   }
 
-  function handleProjectClick(project)
+  function handleProjectClick(project)  // Handler for selecting a Project
   {
-      setCurrentComponent("projectRendering");
-      setCurrentProject(project);
+      setCurrentComponent("projectRendering");  // Renders a specific project
+      setCurrentProject(project); // Sets the 'Current Project' state to the one selected
   }
 
-  function handleTaskChange(e)
+  function handleTaskChange(e) // Handler for Task Form changes
   {
       setTask(e.target.value);
   }
 
-  function handleTaskFormSubmit(e)
+  function handleTaskFormSubmit(e)  // Handler for Task Form Submission
   {
       e.preventDefault();
 
-      if(e.target.name === "clear")
+      if(e.target.name === "clear") // If the Task Form submission is from the 'clear' button ignore it
       {
         return;
       }
@@ -93,60 +95,63 @@ function App() {
       setProjectsData(oldProjects => {
         return oldProjects.map(oldProject => {
 
-          if(oldProject.title === currentProject.title)
+          if(oldProject.title === currentProject.title) // Finds the current project from the CurrentProject
           {
             setCurrentProject(oldCurrentProject => {
               return {...oldCurrentProject, 
-                tasks: [...oldProject.tasks, task]
+                tasks: [...oldProject.tasks, task]  // Adds the new task to CurrentProject
               }
             })
             return {...oldProject, 
-              tasks: [...oldProject.tasks, task]
+              tasks: [...oldProject.tasks, task] // Adds the new task to ProjectsData state
             }
           }
           return oldProject;
         })
       })
 
-      setTask("");
+      setTask(""); // Reset the task state
 
   }
 
-  function removeTask(e, taskForRemoval)
+  function removeTask(e, taskForRemoval) // Handler for task deletion
   {
 
     setProjectsData(oldProjects => {
       return oldProjects.map(project => {
-        if(project.description === currentProject.description)
+        if(project.description === currentProject.description) // Finds the current project from the CurrentProject
         {
-          let newTasks = project.tasks.filter(task => task !== taskForRemoval)
+          let newTasks = project.tasks.filter(task => task !== taskForRemoval) // Creates a new array with all the tasks except the one for removal
           setCurrentProject(oldCurrentProject => {
-            return {...oldCurrentProject, 
-              tasks: newTasks
+            return {...oldCurrentProject,
+              tasks: newTasks // Copies the newly created task array to CurrentProject state
             }
           })
           return {...project, 
-            tasks: newTasks}
+            tasks: newTasks} // Copies the newly created task array to ProjectsData state
         }
         return {...project}
       })
     })
   }
 
-  function removeProject(e, project)
+  function removeProject(e, project)  // Handler for project deletion
   {
     setProjectsData(oldProjects => {
       return oldProjects.filter(oldProject => {
-        return oldProject.description !== project.description
+        return oldProject.description !== project.description // Returns a new array with all the projects except the one for removal
       })
     })
 
-    setCurrentComponent("defaultPage");
+    setCurrentComponent("defaultPage"); // Sets the rendering to the Default Page
   }
 
   return (
     <>
+      {/* Sidebar is always rendered, other components render conditionally based on currentComponent state */}
       <Sidebar onAddProject={handleAddProject} projects={projectsData} onProjectClick={handleProjectClick}/>
+
+      {/* Conditional rendering based on currentComponent value */}
       { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit} isValid={isFormValid}/> : undefined}
       { currentComponent === "defaultPage" ?  <Content onAddProject={handleAddProject}/> : undefined}
       { currentComponent === "projectRendering" ? <Project project={currentProject} onProjectDelete={removeProject}/> : undefined}

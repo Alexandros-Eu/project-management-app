@@ -1,3 +1,10 @@
+/* 
+    * A Form Component for creating new projects
+    * onFormChange fn -> Handler for input changes (Two-Way-Binding) 
+    * formData -> current form state containing title, description and date
+    * onFormSubmit fn -> Handler for form submission
+    * isValid -> indicates if all required fields are filled 
+*/
 export default function Form({onFormChange, formData, onFormSubmit, isValid})
 {
     return (

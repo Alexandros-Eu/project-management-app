@@ -1,6 +1,7 @@
 import projectIcon from '../assets/no-projects.png';
 
-export default function Content({onAddProject})
+// Default Home page 
+export default function Content({onAddProject}) // Gets passed a state fn to add a new Project to the App
 {
     return (
         <main className="h-screen text-center flex flex-col justify-center">
