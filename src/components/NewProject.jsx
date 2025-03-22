@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import Input from './Input.jsx';
 
-export default function NewProjet({onAdd})
+export default function NewProject({onAdd})
 {
     const title = useRef();
     const description = useRef();
@@ -15,7 +15,10 @@ export default function NewProjet({onAdd})
 
         // Validation
 
-        onAdd({enteredTitle, enteredDescription, enteredDueDate});
+        onAdd({
+            title: enteredTitle, 
+            description: enteredDescription, 
+            dueData: enteredDueDate});
 
     }
 
