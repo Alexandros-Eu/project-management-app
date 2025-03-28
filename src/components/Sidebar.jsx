@@ -8,7 +8,7 @@ export default function Sidebar({onAddProject, projects, onProjectClick})
         <div className="mt-12 max-md:text-center">
             <h1 className="text-white font-bold text-sm lg:text-md xl:text-xl">YOUR PROJECTS</h1>
             { /* onAddProject fn that adds a new Project in the Projects state (managed in App) */ }
-            <button onClick={onAddProject} className="bg-stone-700 rounded-lg text-stone-400 hover:bg-stone-600 hover:text-stone-950 md:px-3 md:py-2 mt-8 mb-5 px-2 py-1 text-sm md:text-base text-center">+ Add Project</button>
+            <button onClick={onAddProject} className="bg-stone-700 hover:bg-stone-600 rounded-lg text-stone-400 hover:text-stone-100 md:px-3 md:py-2 mt-8 mb-5 px-2 py-1 text-sm md:text-base text-center">+ Add Project</button>
         </div>
 
         {projects.map((project, i) => { // Lists all the projects 
