@@ -10,10 +10,10 @@ import Input from './Input.jsx';
 export default function Form({onFormChange, formData, onFormSubmit, isValid})
 {
     return (
-        <form onSubmit={(e) => onFormSubmit(e, formData)} className="flex flex-wrap justify-start pe-5 xl:pe-30 2xl:pe-[56rem] pt-36">
+        <form className="flex flex-wrap justify-start pe-5 xl:pe-30 2xl:pe-[56rem] pt-36">
             <div className="flex justify-end w-full">
-                <button className="w-20 h-10 inline me-2 text-stone-800 hover:text-stone-950 font-semibold col-end-6" name="cancel">Cancel</button>
-                <button className="w-20 h-10 inline bg-stone-800 hover:bg-stone-950 text-white rounded-lg font-semibold" name="save" disabled={!isValid}>Save</button>
+                <button className="w-20 h-10 inline me-2 text-stone-800 hover:text-stone-950 font-semibold col-end-6" name="cancel"onClick={(e) => onFormSubmit(e, formData)}>Cancel</button>
+                <button className="w-20 h-10 inline bg-stone-800 hover:bg-stone-950 text-white rounded-lg font-semibold" name="save" onClick={(e) => onFormSubmit(e, formData)}disabled={!isValid}>Save</button>
             </div>
 
             <div className="grid grid-cols-1 ps-12">

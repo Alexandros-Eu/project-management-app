@@ -53,12 +53,14 @@ function App() {
 
   function handleFormSubmit(e, data)  // Handler for Form Submission (addition of a new project)
   {
+    e.preventDefault(); // Prevents the default behavior of a form
+
     if(e.target.name === "cancel")  // If the source of the event is from 'cancel' it returns
     {
+      setCurrentComponent("defaultPage"); // Redirect to the default Home Page
+      setFormData({title: "", description: "", date: ""}); // Resets the form's data inputs
       return;
     }
-
-    e.preventDefault(); // Prevents the default behavior of a form
 
     setProjectsData(oldProjects => {
       setFormData({title: "", description: "", date: ""});  // Reset the Form state
