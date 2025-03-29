@@ -64,7 +64,7 @@ function App() {
 
     if(!isFormValid)  // Display error modal if form validation fails (missing title, description, or date)
     {
-      modal.current.showModal();
+      modal.current.open();
       return;
     }
 
