@@ -6,7 +6,7 @@ export default function Project({project, onProjectDelete}) // The project with 
         <div className="pt-20 ps-96 pe-60">
             <div className="flex justify-between">
                 <h1 className="text-stone-700 text-3xl font-bold">{project.title}</h1>
-                <button className="text-stone-700 font-bold" onClick={(e) => onProjectDelete(e, project)}>Delete</button> { /* onProjectDelete fn removes the project from the projects state (managed in App)*/}
+                <button className="text-stone-700 hover:text-stone-400 font-bold" onClick={(e) => onProjectDelete(e, project)}>Delete</button> { /* onProjectDelete fn removes the project from the projects state (managed in App)*/}
             </div>
 
             <p className="mt-2 text-stone-600">{project.date}</p>
