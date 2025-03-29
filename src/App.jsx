@@ -51,7 +51,7 @@ function App() {
     }
   }
 
-  function handleFormSubmit(e, data)  // Handler for Form Submission (addition of a new project)
+  function handleFormSubmit(e, data, modal)  // Handler for Form Submission (addition of a new project)
   {
     e.preventDefault(); // Prevents the default behavior of a form
 
@@ -61,6 +61,13 @@ function App() {
       setFormData({title: "", description: "", date: ""}); // Resets the form's data inputs
       return;
     }
+
+    if(!isFormValid)  // Display error modal if form validation fails (missing title, description, or date)
+    {
+      modal.current.showModal();
+      return;
+    }
+
 
     setProjectsData(oldProjects => {
       setFormData({title: "", description: "", date: ""});  // Reset the Form state
@@ -154,7 +161,7 @@ function App() {
       <Sidebar onAddProject={handleAddProject} projects={projectsData} onProjectClick={handleProjectClick}/>
 
       {/* Conditional rendering based on currentComponent value */}
-      { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit} isValid={isFormValid}/> : undefined}
+      { currentComponent === "projectForm" ? <Form onFormChange={handleInputChange} formData={formData} onFormSubmit={handleFormSubmit}/> : undefined}
       { currentComponent === "defaultPage" ?  <Content onAddProject={handleAddProject}/> : undefined}
       { currentComponent === "projectRendering" ? <Project project={currentProject} onProjectDelete={removeProject}/> : undefined}
       { currentComponent === "projectRendering" ? <TaskForm task={task} onTaskChange={handleTaskChange} onTaskSubmit={handleTaskFormSubmit} taskData={currentProject.tasks} onTaskDelete={removeTask}/> : undefined}
