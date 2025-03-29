@@ -17,5 +17,5 @@ export default function Sidebar({onAddProject, projects, onProjectClick})
             return <a key={i} onClick={() => onProjectClick(project)} className="block ps-3 pt-1 pb-1 text-slate-200 active:bg-zinc-900">{project.title}</a>
         })}
     </aside>,
-    document.getElementById("modal-root"))
+    document.getElementById("sidebar-root"))
 }
